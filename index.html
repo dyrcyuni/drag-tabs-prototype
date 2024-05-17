@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> Tabs Thing </title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="favicon.png">
+
+        <link rel="stylesheet" href="style.css">
+        <script src="main.js"></script>
+    </head>
+
+    <body onload="init()">
+
+        <div class="container">
+            <div class="tabs">
+                <div class="tab" name="country" onclick="changeTab('country')">
+                    <button>
+                        Country
+                    </button>
+                </div>
+                <div class="tab" name="group" onclick="changeTab('group')">
+                    <button>
+                        Group
+                    </button>
+                </div>
+
+                <div class="drag-handle">
+                    <button>
+                        DRAG
+                    </button>
+                </div>
+            </div>
+
+            <div class="panes">
+                <div class="pane" name="country">
+                    <h1>Pane 1</h1>
+                    <p>Pane 1 content</p>
+                </div>
+                <div class="pane" name="group">
+                    <h1>Pane 2</h1>
+                    <p>Pane 2 content</p>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
+

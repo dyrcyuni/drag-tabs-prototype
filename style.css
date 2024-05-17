@@ -1,0 +1,120 @@
+:root {
+    --c-background: #29363B;    
+    --c-dark: #653641;
+    --c-darker: #320711;
+    --c-stroke: #111;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--c-background);
+    color: white;
+
+    & .container {
+        position: fixed;
+        display: block;
+        width: 80rem;
+
+        --stroke-width: 0.9rem;
+
+
+        & button {
+            color: inherit;
+        }
+
+        & .tabs {
+            --height: 2.5rem;
+            --width-tab: 14rem;
+            --inset-drag: calc(var(--height) / 2);
+            --width-drag: calc(var(--height) + var(--inset-drag));
+            --offset: -2.5rem;
+
+            position: relative;
+            display: flex;
+            height: var(--height);
+            background-color: transparent;
+
+            & .tab {
+                width: calc(var(--width-tab) + 2 * var(--stroke-width));
+                border: none;
+                background-color: white;
+                z-index: 10;
+
+                --magic-number-1: calc(sqrt(2));
+                --magic-number-2: calc(1 / (sqrt(2) + 1));
+
+                translate: calc(0px - var(--stroke-width) * var(--magic-number-1)) 0px;
+
+                clip-path: polygon(
+                    var(--height) 0%,
+                    calc(100% - var(--height)) 0%,
+                    100% 100%, 0% 100%
+                );
+
+                & button {
+
+                    width: calc(100% - 2 * var(--stroke-width) * var(--magic-number-1));
+                    height: calc(100% - var(--stroke-width));
+                    margin-top: calc(var(--stroke-width));
+                    margin-left: calc(var(--stroke-width)* var(--magic-number-1));
+                    border: none;
+                    background-color: var(--c-darker);
+
+                    clip-path: polygon(
+                        calc(var(--height) - var(--stroke-width)) 0%,
+                        calc(100% - var(--height) + var(--stroke-width)) 0%,
+                        100% 100%, 0% 100%
+                    );
+
+                    /* clip-path: polygon( */
+                    /*     calc(var(--height) + var(--stroke-width) * var(--magic-number-2)) var(--stroke-width), */
+                    /*     calc(100% - var(--height) - var(--stroke-width) * var(--magic-number-2)) var(--stroke-width), */
+                    /*     calc(100% - var(--stroke-width) * var(--magic-number-1)) 100%, */
+                    /*     calc(var(--stroke-width) * var(--magic-number-1)) 100% */
+                    /* ); */
+                }
+
+                &.active {
+                    background-color: var(--c-dark);
+                    z-index: 11;
+                }
+
+                &:nth-child(2) {
+                    translate: var(--offset) 0;
+                }
+            }
+
+            & .drag-handle {
+                position: absolute;
+                right: 0;
+                width: var(--width-drag);
+                height: var(--height);
+                background-color: var(--c-dark);
+                text-align: center;
+                clip-path: polygon(var(--inset-drag) 0%, 100% 0%, 100% 100%, 0% 100%);
+
+                & button {
+                    width: 100%;
+                    height: 100%;
+                    translate: 10% 0;
+                    background-color: transparent;
+                    border: none;
+                }
+            }
+        }
+        
+        & .panes {
+            display: flex;
+            height: 20rem;
+            background-color: var(--c-dark);
+
+            & .pane {
+                padding: 10px;
+
+                &:not(.active) {
+                    display: none;
+                }
+            }
+        }
+    }
+}
