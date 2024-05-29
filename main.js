@@ -1,4 +1,3 @@
-
 function init() {
     const tab = getQueryParam("tab") || "country";
     changeTab(tab);

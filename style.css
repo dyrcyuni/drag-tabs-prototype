@@ -15,7 +15,12 @@ body {
         display: block;
         width: 80rem;
 
-        --stroke-width: 0.9rem;
+        --stroke-width: 0.2rem;
+        --tab-width: 14rem;
+        --tab-height: 2.5rem;
+        --tab-offset: -2.5rem;
+        --drag-inset: calc(var(--tab-height) / 2);
+        --drag-width: calc(var(--tab-height) + var(--drag-inset));
 
 
         & button {
@@ -23,75 +28,75 @@ body {
         }
 
         & .tabs {
-            --height: 2.5rem;
-            --width-tab: 14rem;
-            --inset-drag: calc(var(--height) / 2);
-            --width-drag: calc(var(--height) + var(--inset-drag));
-            --offset: -2.5rem;
 
             position: relative;
             display: flex;
-            height: var(--height);
+            height: var(--tab-height);
             background-color: transparent;
 
             & .tab {
-                width: calc(var(--width-tab) + 2 * var(--stroke-width));
+                width: calc(var(--tab-width) + 2 * var(--stroke-width));
                 border: none;
-                background-color: white;
-                z-index: 10;
+                background-color: var(--c-stroke);
 
                 --magic-number-1: calc(sqrt(2));
                 --magic-number-2: calc(1 / (sqrt(2) + 1));
 
                 translate: calc(0px - var(--stroke-width) * var(--magic-number-1)) 0px;
 
-                clip-path: polygon(
-                    var(--height) 0%,
-                    calc(100% - var(--height)) 0%,
-                    100% 100%, 0% 100%
-                );
+                &:first-of-type {
+                    clip-path: polygon(
+                        var(--tab-height) 0%,
+                        calc(100% - var(--tab-height)) 0%,
+                        100% 100%,
+                        calc(var(--stroke-width) * var(--magic-number-2)) 100%,
+                        calc(var(--stroke-width) * var(--magic-number-2))
+                            calc(100% - var(--stroke-width) * var(--magic-number-2))
+                    );
+                }
+                &:not(:first-of-type) {
+                    translate: var(--tab-offset) 0;
+                    clip-path: polygon(
+                        var(--tab-height) 0%,
+                        calc(100% - var(--tab-height)) 0%,
+                        100% 100%,
+                        0% 100%
+                    );
+                }
+
+                z-index: 509;
+                &.active {
+                    z-index: 511;
+                    button {
+                        background-color: var(--c-dark);
+                    }
+                }
 
                 & button {
-
                     width: calc(100% - 2 * var(--stroke-width) * var(--magic-number-1));
                     height: calc(100% - var(--stroke-width));
                     margin-top: calc(var(--stroke-width));
                     margin-left: calc(var(--stroke-width)* var(--magic-number-1));
                     border: none;
                     background-color: var(--c-darker);
+                    z-index: inherit;
 
                     clip-path: polygon(
-                        calc(var(--height) - var(--stroke-width)) 0%,
-                        calc(100% - var(--height) + var(--stroke-width)) 0%,
+                        calc(var(--tab-height) - var(--stroke-width)) 0%,
+                        calc(100% - var(--tab-height) + var(--stroke-width)) 0%,
                         100% 100%, 0% 100%
                     );
-
-                    /* clip-path: polygon( */
-                    /*     calc(var(--height) + var(--stroke-width) * var(--magic-number-2)) var(--stroke-width), */
-                    /*     calc(100% - var(--height) - var(--stroke-width) * var(--magic-number-2)) var(--stroke-width), */
-                    /*     calc(100% - var(--stroke-width) * var(--magic-number-1)) 100%, */
-                    /*     calc(var(--stroke-width) * var(--magic-number-1)) 100% */
-                    /* ); */
-                }
-
-                &.active {
-                    background-color: var(--c-dark);
-                    z-index: 11;
-                }
-
-                &:nth-child(2) {
-                    translate: var(--offset) 0;
                 }
             }
 
             & .drag-handle {
                 position: absolute;
                 right: 0;
-                width: var(--width-drag);
-                height: var(--height);
+                width: var(--drag-width);
+                height: var(--tab-height);
                 background-color: var(--c-dark);
                 text-align: center;
-                clip-path: polygon(var(--inset-drag) 0%, 100% 0%, 100% 100%, 0% 100%);
+                clip-path: polygon(var(--drag-inset) 0%, 100% 0%, 100% 100%, 0% 100%);
 
                 & button {
                     width: 100%;
@@ -104,9 +109,26 @@ body {
         }
         
         & .panes {
+            position: relative;
             display: flex;
             height: 20rem;
             background-color: var(--c-dark);
+            z-index: 510;
+
+            border: var(--stroke-width) solid var(--c-stroke);
+            margin-top: calc(0px - var(--stroke-width));
+            margin-left: calc(0px - var(--stroke-width));
+            margin-right: calc(0px - var(--stroke-width));
+
+            --end-tab: calc(var(--tab-width));
+
+            clip-path: polygon(
+                0% var(--stroke-width),
+                var(--stroke-width) 0%,
+                100% 0%,
+                100% 100%,
+                0% 100%
+            );
 
             & .pane {
                 padding: 10px;
