@@ -5,6 +5,10 @@
     --c-stroke: #111;
 }
 
+* { 
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: var(--c-background);
@@ -97,6 +101,8 @@ body {
                 background-color: var(--c-stroke);
                 z-index: 515;
 
+                border-right: var(--stroke-width) solid var(--c-stroke);
+
                 translate: var(--stroke-width) 0%;
 
                 clip-path: polygon(
@@ -108,7 +114,7 @@ body {
 
                 & button {
                     display: block;
-                    width: calc(100% - var(--stroke-width) * (1 + var(--magic-number-2)));
+                    width: calc(100% - var(--stroke-width) * var(--magic-number-2));
                     height: 100%;
                     border: none;
                     padding-left: 2em;
